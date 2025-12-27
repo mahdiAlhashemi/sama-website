@@ -1,0 +1,18 @@
+{
+  "name": "Sama Ard Al-Furat",
+  "short_name": "Sama",
+  "description": "شريكك التكنولوجي والإنشائي في العراق",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "theme_color": "#41a632",
+  "background_color": "#0a0a0f",
+  "display": "standalone",
+  "start_url": "/",
+  "lang": "ar",
+  "dir": "rtl"
+}
