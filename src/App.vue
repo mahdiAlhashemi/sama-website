@@ -269,50 +269,60 @@ const submitForm = () => {
 
 <template>
   <div :dir="isRtl ? 'rtl' : 'ltr'" class="min-h-screen bg-[#0a0a0f]">
-    <!-- Navbar -->
-    <nav :class="['fixed top-0 left-0 right-0 z-50 transition-all duration-500', isScrolled ? 'bg-[#0a0a0f]/95 backdrop-blur-xl shadow-2xl shadow-[#41a632]/5 py-3' : 'bg-transparent py-5']">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Navbar - Modern Tech Style -->
+    <nav :class="['fixed top-0 left-0 right-0 z-50 transition-all duration-500', isScrolled ? 'bg-[#0a0a0f]/98 backdrop-blur-2xl border-b border-[#41a632]/20 py-4' : 'bg-transparent py-6']">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8">
         <div class="flex items-center justify-between">
-          <!-- Logo -->
-          <div class="flex items-center gap-4">
+          <!-- Logo with Glow -->
+          <a href="#home" class="flex items-center gap-4 group">
             <div class="relative">
-              <div class="absolute inset-0 bg-[#41a632] blur-xl opacity-50"></div>
-              <img src="https://samaardalfurat.com/wp-content/themes/gvn/assets/img/logo.png" alt="Sama Logo" class="h-14 w-auto relative z-10" />
+              <div class="absolute inset-0 bg-[#41a632] blur-2xl opacity-40 group-hover:opacity-60 transition-opacity"></div>
+              <img src="https://samaardalfurat.com/wp-content/themes/gvn/assets/img/logo.png" alt="Sama Logo" class="h-16 w-auto relative z-10" />
+            </div>
+            <div class="hidden sm:block">
+              <h1 class="text-xl font-bold text-white">{{ isRtl ? 'سما أرض الفرات' : 'Sama Ard Al-Furat' }}</h1>
+              <p class="text-xs text-[#41a632] font-medium">{{ isRtl ? 'شريك Odoo الرسمي' : 'Official Odoo Partner' }}</p>
+            </div>
+          </a>
+
+          <!-- Desktop Nav - Glassmorphism Pills -->
+          <div class="hidden lg:flex items-center">
+            <div class="flex items-center gap-1 bg-white/5 backdrop-blur-xl rounded-2xl p-1.5 border border-white/10">
+              <a v-for="(item, key) in content.nav" :key="key" :href="`#${key}`" class="px-5 py-3 text-gray-300 hover:text-white hover:bg-[#41a632]/20 font-medium transition-all rounded-xl text-sm">{{ item }}</a>
             </div>
           </div>
 
-          <!-- Desktop Nav -->
-          <div class="hidden lg:flex items-center gap-1">
-            <a v-for="(item, key) in content.nav" :key="key" :href="`#${key}`" class="px-5 py-2.5 text-gray-300 hover:text-white font-medium transition-all hover:bg-white/5 rounded-xl">{{ item }}</a>
-          </div>
-
-          <!-- Language & CTA -->
+          <!-- Actions -->
           <div class="hidden md:flex items-center gap-4">
-            <button @click="toggleLanguage" class="px-4 py-2.5 rounded-xl font-medium transition-all bg-white/5 text-gray-300 hover:bg-white/10 hover:text-white border border-white/10">
-              {{ currentLang === 'ar' ? 'EN' : 'عربي' }}
+            <button @click="toggleLanguage" class="w-12 h-12 rounded-xl font-bold transition-all bg-white/5 text-gray-300 hover:bg-[#41a632]/20 hover:text-[#41a632] border border-white/10 flex items-center justify-center">
+              {{ currentLang === 'ar' ? 'EN' : 'ع' }}
             </button>
-            <a href="#contact" class="btn-primary">
-              <span class="relative z-10">{{ content.hero.cta3 }}</span>
+            <a href="#contact" class="btn-primary py-3.5 px-7">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+              {{ content.hero.cta3 }}
             </a>
           </div>
 
-          <!-- Mobile Menu -->
-          <button @click="isMenuOpen = !isMenuOpen" class="lg:hidden p-2.5 text-white bg-white/5 rounded-xl">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
+          <!-- Mobile Menu Button -->
+          <button @click="isMenuOpen = !isMenuOpen" class="lg:hidden p-3 text-white bg-white/5 hover:bg-white/10 rounded-xl border border-white/10 transition-all">
+            <svg v-if="!isMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+            <svg v-else class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
           </button>
         </div>
 
         <!-- Mobile Menu Panel -->
-        <div v-show="isMenuOpen" class="lg:hidden mt-4 pb-4 glass rounded-2xl p-6">
-          <div class="flex flex-col gap-2">
-            <a v-for="(item, key) in content.nav" :key="key" :href="`#${key}`" @click="isMenuOpen = false" class="font-medium text-gray-300 hover:text-white py-3 px-4 hover:bg-white/5 rounded-xl transition-all">{{ item }}</a>
-            <hr class="border-white/10 my-2">
-            <button @click="toggleLanguage" class="text-start font-medium text-gray-300 py-3 px-4">{{ currentLang === 'ar' ? 'English' : 'عربي' }}</button>
-            <a href="#contact" class="btn-primary text-center justify-center mt-2">{{ content.hero.cta3 }}</a>
+        <transition enter-active-class="transition duration-300 ease-out" enter-from-class="opacity-0 -translate-y-4" enter-to-class="opacity-100 translate-y-0" leave-active-class="transition duration-200 ease-in" leave-from-class="opacity-100 translate-y-0" leave-to-class="opacity-0 -translate-y-4">
+          <div v-show="isMenuOpen" class="lg:hidden mt-4 glass rounded-2xl p-6 border border-white/10">
+            <div class="flex flex-col gap-2">
+              <a v-for="(item, key) in content.nav" :key="key" :href="`#${key}`" @click="isMenuOpen = false" class="font-medium text-gray-300 hover:text-white py-3.5 px-5 hover:bg-[#41a632]/10 rounded-xl transition-all text-lg">{{ item }}</a>
+              <hr class="border-white/10 my-3">
+              <div class="flex items-center gap-3">
+                <button @click="toggleLanguage" class="flex-1 py-3.5 px-5 bg-white/5 rounded-xl font-medium text-gray-300 hover:text-white transition-all">{{ currentLang === 'ar' ? 'English' : 'عربي' }}</button>
+                <a href="#contact" @click="isMenuOpen = false" class="flex-1 btn-primary text-center justify-center py-3.5">{{ content.hero.cta3 }}</a>
+              </div>
+            </div>
           </div>
-        </div>
+        </transition>
       </div>
     </nav>
 
@@ -566,9 +576,89 @@ const submitForm = () => {
       </div>
     </section>
 
+    <!-- Our Group Section -->
+    <section class="py-32 bg-[#0d0d12] relative overflow-hidden">
+      <div class="absolute inset-0 opacity-30">
+        <div class="absolute top-20 left-10 w-72 h-72 bg-[#41a632]/20 rounded-full blur-[100px]"></div>
+        <div class="absolute bottom-20 right-10 w-96 h-96 bg-[#38bfbe]/10 rounded-full blur-[120px]"></div>
+      </div>
+
+      <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <span class="inline-flex items-center gap-2 px-5 py-2 bg-[#41a632]/10 text-[#41a632] rounded-full text-sm font-bold mb-6 border border-[#41a632]/30">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+            {{ isRtl ? 'مجموعتنا' : 'Our Group' }}
+          </span>
+          <h2 class="text-4xl md:text-5xl font-black text-white mb-4">{{ isRtl ? 'شركات المجموعة' : 'Group Companies' }}</h2>
+          <p class="text-xl text-gray-400 max-w-2xl mx-auto">{{ isRtl ? 'مجموعة متكاملة من الشركات العراقية الرائدة في مختلف القطاعات' : 'An integrated group of leading Iraqi companies across various sectors' }}</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <!-- Sama Ard Al-Furat -->
+          <div class="glass rounded-3xl p-8 card-hover group border border-[#41a632]/20 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-[#41a632]/10 rounded-full blur-2xl group-hover:bg-[#41a632]/20 transition-all"></div>
+            <div class="relative z-10">
+              <div class="w-20 h-20 bg-[#0a0a0f] rounded-2xl flex items-center justify-center mb-6 border border-[#41a632]/30 group-hover:border-[#41a632]/50 transition-all">
+                <img src="https://samaardalfurat.com/wp-content/themes/gvn/assets/img/logo.png" alt="Sama Logo" class="h-12 w-auto" />
+              </div>
+              <h3 class="text-2xl font-bold text-white mb-2">{{ isRtl ? 'سما أرض الفرات' : 'Sama Ard Al-Furat' }}</h3>
+              <p class="text-[#41a632] font-semibold mb-4">{{ isRtl ? 'التكنولوجيا والمقاولات' : 'Technology & Construction' }}</p>
+              <p class="text-gray-400 mb-6">{{ isRtl ? 'شريك Odoo الرسمي - حلول ERP، المقاولات العامة، تطوير البرمجيات' : 'Official Odoo Partner - ERP Solutions, General Contracting, Software Development' }}</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="px-3 py-1 bg-[#41a632]/10 text-[#41a632] rounded-lg text-sm font-medium">Odoo ERP</span>
+                <span class="px-3 py-1 bg-[#41a632]/10 text-[#41a632] rounded-lg text-sm font-medium">{{ isRtl ? 'مقاولات' : 'Contracting' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Al-Dalla -->
+          <div class="glass rounded-3xl p-8 card-hover group border border-[#38bfbe]/20 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-[#38bfbe]/10 rounded-full blur-2xl group-hover:bg-[#38bfbe]/20 transition-all"></div>
+            <div class="relative z-10">
+              <div class="w-20 h-20 bg-[#0a1628] rounded-2xl flex items-center justify-center mb-6 border border-[#38bfbe]/30 group-hover:border-[#38bfbe]/50 transition-all p-3">
+                <svg viewBox="200 120 170 180" class="w-full h-full">
+                  <path fill="#38bfbe" d="M208.86,124.95h88.77c48.83,0,88.77,39.95,88.77,88.77l0,0c0,48.83-39.95,88.77-88.77,88.77h-88.77V124.95L208.86,124.95z"/>
+                  <path fill="#fff" d="M340.66,170.7c-11-11-26.21-17.8-43.02-17.8h-60.83l-0.01,15.14v45.69c0,16.81,6.81,32.02,17.81,43.03c11,11,26.21,17.8,43.02,17.8c16.81,0,32.02-6.8,43.03-17.8c11.01-11.01,17.81-26.21,17.81-43.03C358.47,196.91,351.67,181.71,340.66,170.7z M320.98,237.07c-6.23,6.23-14.53,9.65-23.34,9.65c-8.81,0-17.1-3.43-23.34-9.66c-6.23-6.23-9.65-14.52-9.65-23.34v-33h33c8.81,0,17.11,3.43,23.34,9.66c6.23,6.23,9.65,14.53,9.65,23.34C330.63,222.53,327.21,230.84,320.98,237.07z"/>
+                </svg>
+              </div>
+              <h3 class="text-2xl font-bold text-white mb-2">{{ isRtl ? 'الدلة' : 'Al-Dalla' }}</h3>
+              <p class="text-[#38bfbe] font-semibold mb-4">{{ isRtl ? 'التوزيع والتجارة' : 'Distribution & Trade' }}</p>
+              <p class="text-gray-400 mb-6">{{ isRtl ? 'الموزع الرائد للسلع الاستهلاكية في العراق - تغطية 18 محافظة' : 'Leading FMCG distributor in Iraq - 18 governorate coverage' }}</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="px-3 py-1 bg-[#38bfbe]/10 text-[#38bfbe] rounded-lg text-sm font-medium">FMCG</span>
+                <span class="px-3 py-1 bg-[#38bfbe]/10 text-[#38bfbe] rounded-lg text-sm font-medium">{{ isRtl ? 'توزيع' : 'Distribution' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- City Baker -->
+          <div class="glass rounded-3xl p-8 card-hover group border border-[#78BE20]/20 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-[#78BE20]/10 rounded-full blur-2xl group-hover:bg-[#78BE20]/20 transition-all"></div>
+            <div class="relative z-10">
+              <div class="w-20 h-20 bg-[#FEF7ED] rounded-2xl flex items-center justify-center mb-6 border border-[#78BE20]/30 group-hover:border-[#78BE20]/50 transition-all p-2">
+                <svg viewBox="0 0 245 140" class="w-full h-full">
+                  <path fill="#78BE20" d="M165.52,0.4c-36.97,2.44-61.02,20.36-67.43,67.5c-2.09,15.35,0.77,31.09,8.65,44.42c25.84,43.71,92.64,50.66,124.02,5.43C266,66.94,233.08-5.18,165.52,0.4z M175.69,73.62c12.54,0.29,30.87,4.88,30.29,29.84c-0.36,15.12-4.39,19.19-52.07,18.07c-8.36-0.19-17.16-2.29-16.77-18.93c0.31-13.09,7.72-20.5,16.37-24.54c-7.5,1.33-15.09-0.08-18.68-13.64c-6.27-23.59,19.41-35.38,31.23-38.52c12.82-3.41,32.73-4.48,38.99,19.11c3.45,12.99,1.31,18.3-35.72,28.89C171.71,73.64,173.88,73.58,175.69,73.62z"/>
+                  <path fill="#78BE20" d="M68.73,0.41c7.54-0.57,19.51-0.82,26.64,1.19c24.01,6.76-38.49,31.08-32.61,75.18c5.23,39.2,53.89,69.26,26.61,71.76c-32.33,2.97-63.97-8.89-80.07-38.09C-16.86,62.99,15.08,4.5,68.73,0.41z"/>
+                </svg>
+              </div>
+              <h3 class="text-2xl font-bold text-white mb-2">{{ isRtl ? 'خباز المدينة' : 'City Baker' }}</h3>
+              <p class="text-[#78BE20] font-semibold mb-4">{{ isRtl ? 'المخبوزات والحلويات' : 'Bakery & Sweets' }}</p>
+              <p class="text-gray-400 mb-6">{{ isRtl ? 'أشهى المخبوزات والحلويات الطازجة يومياً - خبز عراقي أصيل' : 'Delicious fresh baked goods daily - Authentic Iraqi bread' }}</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="px-3 py-1 bg-[#78BE20]/10 text-[#78BE20] rounded-lg text-sm font-medium">{{ isRtl ? 'مخبوزات' : 'Bakery' }}</span>
+                <span class="px-3 py-1 bg-[#78BE20]/10 text-[#78BE20] rounded-lg text-sm font-medium">{{ isRtl ? 'حلويات' : 'Sweets' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Partners Section -->
-    <section id="partners" class="py-32 bg-[#0d0d12]">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="partners" class="py-32 relative overflow-hidden">
+      <div class="absolute inset-0 gradient-mesh opacity-30"></div>
+
+      <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
           <h2 class="text-4xl md:text-5xl font-black text-white mb-4">{{ content.partners.title }}</h2>
         </div>
@@ -698,76 +788,107 @@ const submitForm = () => {
       </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-[#050508] border-t border-white/5">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Footer - Tech Style -->
+    <footer class="relative bg-[#050508] overflow-hidden">
+      <!-- Decorative Elements -->
+      <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#41a632]/50 to-transparent"></div>
+      <div class="absolute bottom-0 left-1/4 w-96 h-96 bg-[#41a632]/5 rounded-full blur-[150px]"></div>
+
+      <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
         <!-- Main Footer -->
-        <div class="py-16 grid md:grid-cols-2 lg:grid-cols-4 gap-12">
-          <!-- Company Info -->
-          <div class="lg:col-span-2">
-            <div class="flex items-center gap-4 mb-6">
-              <img src="https://samaardalfurat.com/wp-content/themes/gvn/assets/img/logo.png" alt="Sama Logo" class="h-14 w-auto" />
+        <div class="py-20 grid md:grid-cols-2 lg:grid-cols-12 gap-12">
+          <!-- Company Info - Takes 5 columns -->
+          <div class="lg:col-span-5">
+            <div class="flex items-center gap-5 mb-8">
+              <div class="relative">
+                <div class="absolute inset-0 bg-[#41a632] blur-xl opacity-30"></div>
+                <img src="https://samaardalfurat.com/wp-content/themes/gvn/assets/img/logo.png" alt="Sama Logo" class="h-16 w-auto relative z-10" />
+              </div>
               <div>
-                <h3 class="text-white font-bold text-xl">{{ content.footer.company }}</h3>
-                <p class="text-[#41a632] text-sm">samaardalfurat.com</p>
+                <h3 class="font-bold text-2xl text-white">{{ content.footer.company }}</h3>
+                <p class="text-[#41a632] font-medium">samaardalfurat.com</p>
               </div>
             </div>
-            <p class="text-gray-400 leading-relaxed mb-6 max-w-md">{{ isRtl ? 'شريكك التكنولوجي والإنشائي الموثوق في العراق. نقدم حلول Odoo ERP والمقاولات العامة والتطوير البرمجي.' : 'Your trusted technology and construction partner in Iraq. We provide Odoo ERP solutions, general contracting, and software development.' }}</p>
+            <p class="text-gray-400 text-lg leading-relaxed mb-8">{{ isRtl ? 'شريكك التكنولوجي والإنشائي الموثوق في العراق. نقدم حلول Odoo ERP والمقاولات العامة والتطوير البرمجي.' : 'Your trusted technology and construction partner in Iraq. We provide Odoo ERP solutions, general contracting, and software development.' }}</p>
+
+            <!-- Odoo Badge -->
+            <div class="inline-flex items-center gap-4 bg-[#714B67]/20 border border-[#714B67]/30 rounded-2xl px-6 py-4 mb-8">
+              <img src="https://odoocdn.com/openerp_website/static/src/img/assets/png/odoo_logo_white.png" alt="Odoo" class="h-8 w-auto" />
+              <div>
+                <p class="text-white font-bold">{{ isRtl ? 'شريك رسمي معتمد' : 'Official Certified Partner' }}</p>
+                <p class="text-gray-400 text-sm">Iraq</p>
+              </div>
+            </div>
+
             <!-- Social Links -->
             <div class="flex items-center gap-3">
-              <a href="https://www.facebook.com/samaardalfurat" target="_blank" class="w-11 h-11 glass rounded-xl flex items-center justify-center hover:bg-[#41a632] transition-all duration-300 group">
+              <a href="https://www.facebook.com/samaardalfurat" target="_blank" class="w-12 h-12 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center hover:bg-[#41a632] hover:border-[#41a632] transition-all duration-300 group">
                 <svg class="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
               </a>
-              <a href="https://www.instagram.com/samaardalfurat" target="_blank" class="w-11 h-11 glass rounded-xl flex items-center justify-center hover:bg-[#41a632] transition-all duration-300 group">
+              <a href="https://www.instagram.com/samaardalfurat" target="_blank" class="w-12 h-12 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center hover:bg-[#41a632] hover:border-[#41a632] transition-all duration-300 group">
                 <svg class="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
               </a>
-              <a href="https://www.linkedin.com/company/samaardalfurat" target="_blank" class="w-11 h-11 glass rounded-xl flex items-center justify-center hover:bg-[#41a632] transition-all duration-300 group">
+              <a href="https://www.linkedin.com/company/samaardalfurat" target="_blank" class="w-12 h-12 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center hover:bg-[#0077B5] hover:border-[#0077B5] transition-all duration-300 group">
                 <svg class="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
               </a>
-              <a href="https://wa.me/9647811118564" target="_blank" class="w-11 h-11 glass rounded-xl flex items-center justify-center hover:bg-[#25D366] transition-all duration-300 group">
+              <a href="https://wa.me/9647811118564" target="_blank" class="w-12 h-12 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center hover:bg-[#25D366] hover:border-[#25D366] transition-all duration-300 group">
                 <svg class="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
               </a>
             </div>
           </div>
 
-          <!-- Quick Links -->
-          <div>
-            <h4 class="text-white font-bold text-lg mb-6">{{ isRtl ? 'روابط سريعة' : 'Quick Links' }}</h4>
-            <ul class="space-y-3">
-              <li><a href="#home" class="text-gray-400 hover:text-[#41a632] transition-colors">{{ content.nav.home }}</a></li>
-              <li><a href="#about" class="text-gray-400 hover:text-[#41a632] transition-colors">{{ content.nav.about }}</a></li>
-              <li><a href="#services" class="text-gray-400 hover:text-[#41a632] transition-colors">{{ content.nav.services }}</a></li>
-              <li><a href="#partners" class="text-gray-400 hover:text-[#41a632] transition-colors">{{ content.nav.partners }}</a></li>
-              <li><a href="#contact" class="text-gray-400 hover:text-[#41a632] transition-colors">{{ content.nav.contact }}</a></li>
+          <!-- Quick Links - Takes 3 columns -->
+          <div class="lg:col-span-3">
+            <h4 class="text-white font-bold text-xl mb-8">{{ isRtl ? 'روابط سريعة' : 'Quick Links' }}</h4>
+            <ul class="space-y-4">
+              <li><a href="#home" class="text-gray-400 hover:text-[#41a632] transition-colors text-lg flex items-center gap-2 group"><span class="w-2 h-2 bg-[#41a632]/50 rounded-full group-hover:bg-[#41a632] transition-colors"></span>{{ content.nav.home }}</a></li>
+              <li><a href="#about" class="text-gray-400 hover:text-[#41a632] transition-colors text-lg flex items-center gap-2 group"><span class="w-2 h-2 bg-[#41a632]/50 rounded-full group-hover:bg-[#41a632] transition-colors"></span>{{ content.nav.about }}</a></li>
+              <li><a href="#services" class="text-gray-400 hover:text-[#41a632] transition-colors text-lg flex items-center gap-2 group"><span class="w-2 h-2 bg-[#41a632]/50 rounded-full group-hover:bg-[#41a632] transition-colors"></span>{{ content.nav.services }}</a></li>
+              <li><a href="#partners" class="text-gray-400 hover:text-[#41a632] transition-colors text-lg flex items-center gap-2 group"><span class="w-2 h-2 bg-[#41a632]/50 rounded-full group-hover:bg-[#41a632] transition-colors"></span>{{ content.nav.partners }}</a></li>
+              <li><a href="#contact" class="text-gray-400 hover:text-[#41a632] transition-colors text-lg flex items-center gap-2 group"><span class="w-2 h-2 bg-[#41a632]/50 rounded-full group-hover:bg-[#41a632] transition-colors"></span>{{ content.nav.contact }}</a></li>
             </ul>
           </div>
 
-          <!-- Contact Info -->
-          <div>
-            <h4 class="text-white font-bold text-lg mb-6">{{ isRtl ? 'تواصل معنا' : 'Contact Us' }}</h4>
-            <ul class="space-y-4">
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-[#41a632] mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" /></svg>
-                <span class="text-gray-400">{{ content.contact.email }}</span>
+          <!-- Contact Info - Takes 4 columns -->
+          <div class="lg:col-span-4">
+            <h4 class="text-white font-bold text-xl mb-8">{{ isRtl ? 'تواصل معنا' : 'Contact Us' }}</h4>
+            <ul class="space-y-5">
+              <li class="flex items-start gap-4 group">
+                <div class="w-12 h-12 bg-[#41a632]/10 rounded-xl flex items-center justify-center shrink-0 group-hover:bg-[#41a632]/20 transition-colors">
+                  <svg class="w-5 h-5 text-[#41a632]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" /></svg>
+                </div>
+                <div>
+                  <p class="text-gray-500 text-sm mb-1">{{ isRtl ? 'البريد الإلكتروني' : 'Email' }}</p>
+                  <span class="text-white font-medium text-lg">{{ content.contact.email }}</span>
+                </div>
               </li>
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-[#41a632] mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" /></svg>
-                <span class="text-gray-400" dir="ltr">{{ content.contact.phone }}</span>
+              <li class="flex items-start gap-4 group">
+                <div class="w-12 h-12 bg-[#41a632]/10 rounded-xl flex items-center justify-center shrink-0 group-hover:bg-[#41a632]/20 transition-colors">
+                  <svg class="w-5 h-5 text-[#41a632]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" /></svg>
+                </div>
+                <div>
+                  <p class="text-gray-500 text-sm mb-1">{{ isRtl ? 'الهاتف' : 'Phone' }}</p>
+                  <span class="text-white font-medium text-lg" dir="ltr">{{ content.contact.phone }}</span>
+                </div>
               </li>
-              <li class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-[#41a632] mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" /></svg>
-                <span class="text-gray-400">{{ content.contact.address }}</span>
+              <li class="flex items-start gap-4 group">
+                <div class="w-12 h-12 bg-[#41a632]/10 rounded-xl flex items-center justify-center shrink-0 group-hover:bg-[#41a632]/20 transition-colors">
+                  <svg class="w-5 h-5 text-[#41a632]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" /></svg>
+                </div>
+                <div>
+                  <p class="text-gray-500 text-sm mb-1">{{ isRtl ? 'العنوان' : 'Address' }}</p>
+                  <span class="text-white font-medium text-lg">{{ content.contact.address }}</span>
+                </div>
               </li>
             </ul>
           </div>
         </div>
 
         <!-- Copyright -->
-        <div class="py-6 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p class="text-gray-500 text-sm">&copy; {{ new Date().getFullYear() }} {{ content.footer.company }}. {{ content.footer.rights }}.</p>
-          <div class="flex items-center gap-2">
-            <img src="https://odoocdn.com/openerp_website/static/src/img/assets/png/odoo_logo_white.png" alt="Odoo Partner" class="h-5 w-auto opacity-60" />
-            <span class="text-gray-600 text-xs">Official Partner</span>
+        <div class="py-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
+          <p class="text-gray-500">&copy; {{ new Date().getFullYear() }} {{ content.footer.company }}. {{ content.footer.rights }}.</p>
+          <div class="flex items-center gap-6">
+            <span class="text-gray-600 text-sm">{{ isRtl ? 'الابتكار التقني + الكفاءة الهندسية' : 'Tech Innovation + Engineering Excellence' }}</span>
           </div>
         </div>
       </div>
